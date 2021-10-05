@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.11">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="gabym"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2021-10-02 09:59:36 "/>
+        <attribute name="created" value="Z2FieW07TEFQVE9QLTZWUTRJSk8wOzIwMjEtMDktMjc7IjA5OjA2OjEwICI7Mjc3OA=="/>
+        <attribute name="edited" value="Z2FieW07TEFQVE9QLTZWUTRJSk8wOzIwMjEtMTAtMDI7IjEwOjIxOjMwICI7MTI7Z2FieW07TEFQVE9QLTZWUTRJSk8wOzIwMjEtMDktMjc7IjA5OjA2OjEwICI7Zmx1eG9ncmFtYV9kaXZ1bGRhY2FvX2V2ZW50b3MuZnByZzs5Mzc3"/>
+        <attribute name="edited" value="Z2FieW07TEFQVE9QLTZWUTRJSk8wOzIwMjEtMTAtMDI7IjA5OjU5OjM2ICI7ODsyODk0"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="limitePart, numInscricao, menu" type="Integer" array="False" size=""/>
+            <declare name="dataAtual, dataInicioEvento, dataFimEvento, dataPalest, nomeEvento, nomePalest, nomePart, dNascPart, listaEvento, listaPalest, listaPart, cpfPart" type="String" array="False" size=""/>
+            <declare name="EventoCadastrado, DataIntervaloDoEvento, PalestranteCadastrado, ParticipanteCadastrado" type="Boolean" array="False" size=""/>
+            <assign variable="numInscricao" expression="1"/>
+            <assign variable="limitePart" expression="100"/>
+            <assign variable="menu" expression="0"/>
+            <comment text="O usu&#225;rio deve escolher uma das op&#231;&#245;es do menu para iniciar o cadastro ou busca."/>
+            <output expression="&quot;Escolha a op&#231;&#227;o desejada: 1-Cadastrar evento 2-Cadastrar palestrante 3-Cadastrar participante 4-Buscar evento 5-Buscar palestrante 6-Buscar participante&quot;" newline="True"/>
+            <input variable="menu"/>
+            <for variable="menu" start="1" end="1" direction="inc" step="1">
+                <comment text="A data atual &#233; obtida do sistema. "/>
+                <input variable="dataAtual"/>
+                <output expression="&quot;Informe a data de in&#237;cio do evento: &quot;" newline="True"/>
+                <input variable="dataInicioEvento"/>
+                <if expression="dataInicioEvento&gt;dataAtual">
+                    <then>
+                        <output expression="&quot;Informe a data de fim do evento: &quot;" newline="True"/>
+                        <input variable="dataFimEvento"/>
+                        <output expression="&quot;Insira o nome do evento: &quot;" newline="True"/>
+                        <input variable="nomeEvento"/>
+                        <output expression="&quot;Evento cadastrado com sucesso!&quot;" newline="True"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;A data do evento deve ser posterior &#224; data atual.&quot;" newline="True"/>
+                    </else>
+                </if>
+                <comment text="Os eventos cadastrados v&#227;o para uma lista."/>
+                <input variable="listaEvento"/>
+            </for>
+            <for variable="menu" start="2" end="2" direction="inc" step="2">
+                <comment text="S&#243; &#233; poss&#237;vell cadastrar palestrante em evento j&#225; cadastrado."/>
+                <output expression="&quot;Informe o nome do evento: &quot;" newline="True"/>
+                <input variable="nomeEvento"/>
+                <if expression="EventoCadastrado">
+                    <then>
+                        <output expression="&quot;Informe o nome do palestrante: &quot;" newline="True"/>
+                        <input variable="nomePalest"/>
+                        <output expression="&quot;Informe a data da palestra:&quot;" newline="True"/>
+                        <comment text="A data da palestra deve estar no intervalo de realiza&#231;&#227;o do evento."/>
+                        <input variable="dataPalest"/>
+                        <if expression="DataIntervaloDoEvento">
+                            <then>
+                                <output expression="&quot;Palestrante cadastrado(a) com sucesso!&quot;" newline="True"/>
+                            </then>
+                            <else>
+                                <output expression="&quot;A data da palestra precisa corresponder ao per&#237;odo do evento.&quot;" newline="True"/>
+                            </else>
+                        </if>
+                    </then>
+                    <else>
+                        <output expression="&quot;V&#225; &#224; op&#231;&#227;o 1 do menu para cadastrar o evento.&quot;" newline="True"/>
+                    </else>
+                </if>
+                <comment text="Os palestrantes cadastrados v&#227;o para uma lista com os respectivos eventos de participa&#231;&#227;o. "/>
+                <input variable="listaPalest"/>
+            </for>
+            <for variable="menu" start="3" end="3" direction="inc" step="3">
+                <comment text="S&#243; &#233; poss&#237;vel cadastrar participante em evento j&#225; cadastrado."/>
+                <output expression="&quot;Informe o nome do evento:&quot;" newline="True"/>
+                <if expression="EventoCadastrado">
+                    <then>
+                        <comment text="participante deve ter mais que 18 anos. "/>
+                        <output expression="&quot;Informe a data de nascimento do participante: &quot;" newline="True"/>
+                        <input variable="dNascPart"/>
+                        <if expression="dataAtual-dNascPart&gt;=18">
+                            <then>
+                                <output expression="&quot;Informe o nome do participante: &quot;" newline="True"/>
+                                <input variable="nomePart"/>
+                                <output expression="&quot;Informe o CPF do participante: &quot;" newline="True"/>
+                                <input variable="cpfPart"/>
+                                <output expression="&quot;Participante cadastrado com sucesso&quot;" newline="True"/>
+                                <comment text="O n&#250;mero de participantes n&#227;o pode ser superior &#224; 100."/>
+                                <while expression="numInscricao&lt;=limitePart">
+                                    <output expression="&quot;N&#250;mero de inscri&#231;&#227;o: &quot; &amp; numInscricao" newline="True"/>
+                                    <assign variable="numInscricao" expression="numInscricao+1"/>
+                                </while>
+                                <output expression="&quot;O n&#250;mero m&#225;ximo de participantes foi atingido&quot;" newline="True"/>
+                            </then>
+                            <else>
+                                <output expression="&quot;O participante do evento precisa ter mais que 18 anos.&quot;" newline="True"/>
+                            </else>
+                        </if>
+                    </then>
+                    <else>
+                        <output expression="&quot;V&#225; &#224; op&#231;&#227;o 1 do menu para cadastrar o evento.&quot;" newline="True"/>
+                    </else>
+                </if>
+                <comment text="Os participantes cadastrados v&#227;o para uma lista com os respectivos eventos de participa&#231;&#227;o. "/>
+                <input variable="listaPart"/>
+            </for>
+            <for variable="menu" start="4" end="4" direction="inc" step="4">
+                <comment text="O evento pode ser encontrado por nome, na lista de cadastro."/>
+                <output expression="&quot;Digite o nome do evento que deseja encontrar: &quot;" newline="True"/>
+                <input variable="nomeEvento"/>
+                <if expression="EventoCadastrado">
+                    <then>
+                        <output expression="&quot;O evento: &quot; &amp; nomeEvento &amp; &quot; ter&#225; in&#237;cio em &quot; &amp; dataInicioEvento &amp; &quot; e terminar&#225; em &quot;  &amp; dataFimEvento" newline="True"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;O evento n&#227;o foi encontrado.&quot;" newline="True"/>
+                    </else>
+                </if>
+            </for>
+            <for variable="menu" start="5" end="5" direction="inc" step="5">
+                <comment text="O palestrante pode ser encontrado por nome, na lista de cadastro."/>
+                <output expression="&quot;Digite o nome do(a) palestrante que deseja encontrar: &quot;" newline="True"/>
+                <input variable="nomePalest"/>
+                <if expression="PalestranteCadastrado">
+                    <then>
+                        <output expression="&quot;O(a) palestrante: &quot; &amp; nomePalestrante &amp; &quot; participa do evento &quot; &amp; nomeEvento &amp; &quot; em &quot;  &amp; dataPalest" newline="True"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;O(a) palestrante n&#227;o foi encontrado(a).&quot;" newline="True"/>
+                    </else>
+                </if>
+            </for>
+            <for variable="menu" start="6" end="6" direction="inc" step="1">
+                <comment text="O participante pode ser encontrado pelo nome ou CPF."/>
+                <output expression="&quot;Digite o nome ou CPF do(a) participante que deseja encontrar: &quot;" newline="True"/>
+                <input variable="nomePart"/>
+                <if expression="ParticipanteCadastrado">
+                    <then>
+                        <output expression="&quot;Participante cadastrado(a) no evento: &quot; &amp; nomeEvento" newline="True"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;O(a) participante n&#227;o foi encontrado(a).&quot;" newline="True"/>
+                    </else>
+                </if>
+            </for>
+        </body>
+    </function>
+</flowgorithm>
